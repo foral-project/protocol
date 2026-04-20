@@ -1,0 +1,18 @@
+# Manifesto Backstage para repositórios de infraestrutura.
+# Copie e preencha os campos para cada novo repo de infra.
+
+"@context": "https://foral-project.github.io/protocol/context/v1/catalog.jsonld"
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: CHANGE-ME
+  description: "Descrição do módulo de infraestrutura."
+  annotations:
+    foral.dev/archetype: infrastructure
+  tags:
+    - infrastructure
+    - opentofu
+spec:
+  type: service
+  lifecycle: experimental
+  owner: foral-project

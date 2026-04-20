@@ -1,0 +1,25 @@
+# Manifesto self-describing do repositório de protocolo Foral.
+# Standard: Backstage catalog-info.yaml (CNCF Incubating)
+
+"@context": "https://foral-project.github.io/protocol/context/v1/catalog.jsonld"
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: foral-protocol
+  description: "Protocolo vendor-agnostic para governança de repositórios federados."
+  annotations:
+    foral.dev/archetype: protocol
+    github.com/project-slug: foral-project/protocol
+  tags:
+    - governance
+    - federation
+    - protocol
+  links:
+    - url: https://github.com/foral-project/protocol
+      title: GitHub Repository
+    - url: https://foral-project.github.io/protocol/
+      title: Protocol Specification
+spec:
+  type: library
+  lifecycle: experimental
+  owner: foral-project

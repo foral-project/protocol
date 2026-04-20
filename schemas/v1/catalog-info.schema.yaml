@@ -1,0 +1,135 @@
+# Foral Protocol — Schema de validação para catalog-info.yaml
+# Valida manifestos Backstage catalog-info.yaml de membros federados.
+#
+# Standard: IETF JSON Schema Draft 2020-12
+# Formato do nome do membro: RFC 1123 DNS Label
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://foral-project.github.io/protocol/schemas/v1/catalog-info.schema.yaml"
+title: "Foral Catalog Info Schema"
+description: >
+  Valida a estrutura de um catalog-info.yaml conforme o Foral Protocol.
+  Baseado no formato Backstage (CNCF Incubating), estendido com
+  annotations foral.dev/* e @context JSON-LD obrigatório.
+type: object
+required:
+  - "@context"
+  - apiVersion
+  - kind
+  - metadata
+  - spec
+
+properties:
+  "@context":
+    description: "URI JSON-LD 1.1 (W3C Recommendation). Resolve para o contexto semântico do protocolo."
+    type: string
+    format: uri
+    pattern: "^https://foral-project\\.github\\.io/protocol/context/v1/.+\\.jsonld$"
+
+  apiVersion:
+    description: "Versão da API Backstage."
+    type: string
+    enum:
+      - "backstage.io/v1alpha1"
+      - "backstage.io/v1beta1"
+
+  kind:
+    description: "Tipo de entidade Backstage."
+    type: string
+    enum:
+      - Component
+      - API
+      - Resource
+      - System
+      - Domain
+      - Group
+      - User
+      - Template
+      - Location
+
+  metadata:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        description: "DNS label válido (RFC 1123). Lowercase, hyphens, max 63 chars."
+        type: string
+        pattern: "^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$"
+        maxLength: 63
+      description:
+        type: string
+        maxLength: 256
+      labels:
+        type: object
+        additionalProperties:
+          type: string
+      annotations:
+        type: object
+        additionalProperties:
+          type: string
+        properties:
+          "foral.dev/archetype":
+            description: "Arquétipo do componente no ecossistema Foral."
+            type: string
+            enum:
+              - protocol
+              - governance
+              - infrastructure
+              - application
+              - bot
+      tags:
+        type: array
+        items:
+          type: string
+          pattern: "^[a-z0-9-]+$"
+      links:
+        type: array
+        items:
+          type: object
+          required:
+            - url
+          properties:
+            url:
+              type: string
+              format: uri
+            title:
+              type: string
+            icon:
+              type: string
+
+  spec:
+    type: object
+    required:
+      - type
+      - lifecycle
+      - owner
+    properties:
+      type:
+        description: "Tipo de componente Backstage."
+        type: string
+      lifecycle:
+        description: "Estado do ciclo de vida."
+        type: string
+        enum:
+          - experimental
+          - production
+          - deprecated
+      owner:
+        description: "Dono (grupo ou usuário Backstage)."
+        type: string
+        pattern: "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"
+      system:
+        type: string
+      dependsOn:
+        type: array
+        items:
+          type: string
+      providesApis:
+        type: array
+        items:
+          type: string
+      consumesApis:
+        type: array
+        items:
+          type: string
