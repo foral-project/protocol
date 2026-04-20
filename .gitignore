@@ -1,0 +1,15 @@
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# AI dev tooling (não é artefato do projeto)
+.agents/
+.gemini/
+.claude/
+
+# Node (se tooling de validação for usado localmente)
+node_modules/

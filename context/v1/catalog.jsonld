@@ -1,0 +1,23 @@
+{
+  "@context": {
+    "@vocab": "https://foral-project.github.io/protocol/ns/v1#",
+    "backstage": "https://backstage.io/ns/v1#",
+    "schema": "https://schema.org/",
+    "apiVersion": "backstage:apiVersion",
+    "kind": "backstage:kind",
+    "metadata": "backstage:metadata",
+    "spec": "backstage:spec",
+    "lifecycle": "backstage:lifecycle",
+    "owner": "schema:author",
+    "name": "schema:name",
+    "description": "schema:description",
+    "annotations": "backstage:annotations",
+    "labels": "backstage:labels",
+    "tags": "backstage:tags",
+    "type": "backstage:type",
+    "system": "backstage:system",
+    "dependsOn": "backstage:dependsOn",
+    "providesApis": "backstage:providesApis",
+    "consumesApis": "backstage:consumesApis"
+  }
+}

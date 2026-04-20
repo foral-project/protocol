@@ -1,0 +1,62 @@
+# Protocol — Release automation via release-please
+#
+# Analisa Conventional Commits e cria:
+# - Release PR com CHANGELOG atualizado
+# - Tag SemVer automática ao merge
+# - GitHub Release com release notes
+#
+# Standard: SemVer 2.0.0 + Conventional Commits 1.0.0
+# Tool: release-please (Google, Apache-2.0)
+
+name: Release Please
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          release-type: simple
+          package-name: foral-protocol
+
+  # Quando uma release é publicada, notifica a governance para re-validar membros.
+  # Usa GitHub App token (short-lived) ao invés de PAT (segurança).
+  notify-governance:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.FORAL_APP_ID }}
+          private-key: ${{ secrets.FORAL_APP_PRIVATE_KEY }}
+          owner: foral-project
+
+      - name: Dispatch federation re-validation
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          repository: foral-project/governance
+          event-type: protocol-release
+          client-payload: >-
+            {
+              "specversion": "1.0",
+              "type": "com.foral.protocol.released",
+              "source": "//github.com/foral-project/protocol",
+              "tag": "${{ needs.release-please.outputs.tag_name }}"
+            }
