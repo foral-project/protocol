@@ -1,0 +1,101 @@
+# Foral Protocol — Schema de validação para federation-registry.yaml
+# Valida o registro de membros federados no formato Backstage catalog locations.
+#
+# Standard: IETF JSON Schema Draft 2020-12
+# Formato do registry: Backstage catalog locations (CNCF Incubating)
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://foral-project.github.io/protocol/schemas/v1/federation-registry.schema.yaml"
+title: "Foral Federation Registry Schema"
+description: >
+  Valida a estrutura de um federation-registry.yaml.
+  O registry lista todos os membros da federação usando o formato
+  Backstage catalog locations, estendido com versionamento SemVer
+  e @context JSON-LD obrigatório.
+type: object
+required:
+  - "@context"
+  - apiVersion
+  - kind
+  - metadata
+  - spec
+
+properties:
+  "@context":
+    description: "URI JSON-LD 1.1 (W3C Recommendation)."
+    type: string
+    format: uri
+    pattern: "^https://foral-project\\.github\\.io/protocol/context/v1/.+\\.jsonld$"
+
+  apiVersion:
+    description: "Versão da API Foral."
+    const: "foral.dev/v1"
+
+  kind:
+    description: "Tipo de documento."
+    const: "FederationRegistry"
+
+  metadata:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        description: "Identificador do registry (DNS label, RFC 1123)."
+        type: string
+        pattern: "^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$"
+        maxLength: 63
+      description:
+        type: string
+
+  spec:
+    type: object
+    required:
+      - protocol
+      - locations
+    properties:
+      protocol:
+        description: "Referência ao protocol repo consumido por esta instância."
+        type: object
+        required:
+          - type
+          - target
+          - version
+        properties:
+          type:
+            description: "Tipo de referência (url ou github)."
+            type: string
+            enum:
+              - url
+              - github
+          target:
+            description: "URI do repositório do protocolo."
+            type: string
+            format: uri
+          version:
+            description: "Tag SemVer do protocolo consumido."
+            type: string
+            pattern: "^v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-[a-zA-Z0-9.]+)?(\\+[a-zA-Z0-9.]+)?$"
+      locations:
+        description: "Lista de membros federados. Cada entrada aponta para o catalog-info.yaml do membro."
+        type: array
+        items:
+          type: object
+          required:
+            - type
+            - target
+          properties:
+            type:
+              description: "Tipo de referência."
+              type: string
+              enum:
+                - url
+                - github
+            target:
+              description: "URI do catalog-info.yaml do membro."
+              type: string
+              format: uri
+            version:
+              description: "Tag SemVer esperada (opcional)."
+              type: string
+              pattern: "^v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-[a-zA-Z0-9.]+)?(\\+[a-zA-Z0-9.]+)?$"

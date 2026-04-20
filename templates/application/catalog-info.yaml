@@ -1,0 +1,17 @@
+# Manifesto Backstage para repositórios de aplicação.
+# Copie e preencha os campos para cada novo repo de aplicação.
+
+"@context": "https://foral-project.github.io/protocol/context/v1/catalog.jsonld"
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: CHANGE-ME
+  description: "Descrição da aplicação."
+  annotations:
+    foral.dev/archetype: application
+  tags:
+    - application
+spec:
+  type: service
+  lifecycle: experimental
+  owner: foral-project
