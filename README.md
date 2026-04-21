@@ -1,55 +1,38 @@
-<div align="center">
-
-# 📜 Foral Protocol
+# Foral Protocol
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![JSON Schema](https://img.shields.io/badge/JSON%20Schema-Draft%202020--12-green.svg)](https://json-schema.org/draft/2020-12/schema)
 [![JSON-LD](https://img.shields.io/badge/JSON--LD-1.1-orange.svg)](https://www.w3.org/TR/json-ld11/)
-[![Schemas Live](https://img.shields.io/badge/Schemas-Live%20↗-brightgreen)](https://foral-project.github.io/protocol/schemas/v1/)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Active-success)](https://foral-project.github.io/protocol/)
 
-Protocolo vendor-agnostic para governança de repositórios federados.
-
-[Especificação](PROTOCOL.md) ·
-[Schemas](https://foral-project.github.io/protocol/schemas/v1/) ·
-[JSON-LD Contexts](https://foral-project.github.io/protocol/context/v1/) ·
-[Templates](templates/)
-
-</div>
+[Specification](PROTOCOL.md) · [Schemas](https://foral-project.github.io/protocol/schemas/v1/) · [JSON-LD Contexts](https://foral-project.github.io/protocol/context/v1/) · [Templates](templates/)
 
 ---
 
-## O que é
+Defines the schemas, templates, semantic contexts, and naming conventions that federated repositories must follow. All artifacts are served via GitHub Pages and consumed by CI workflows at runtime.
 
-O Foral Protocol define **schemas**, **templates**, **contextos semânticos** e
-**convenções de naming** que repositórios federados devem seguir.
+> Every artifact traces back to an industry standard (IETF, W3C, CNCF). No custom formats.
 
-O protocolo é a **constituição**. A [governance](https://github.com/foral-project/governance)
-é o **judiciário** que aplica a constituição via CI gates e OPA policies.
-
-> **Zero formatos inventados.** Cada artefato rastreia a um standard oficial (IETF, W3C, CNCF).
-
-## Estrutura
+## Structure
 
 ```
 schemas/v1/
-├── catalog-info.schema.yaml          ← Schema do manifesto Backstage
-└── federation-registry.schema.yaml   ← Schema do registry de federação
+├── catalog-info.schema.yaml        ← Backstage manifest schema
+└── federation-registry.schema.yaml ← Federation registry schema
 
 context/v1/
-├── catalog.jsonld                    ← Contexto JSON-LD para manifesto
-└── registry.jsonld                   ← Contexto JSON-LD para registry
+├── catalog.jsonld                  ← JSON-LD context for manifests
+└── registry.jsonld                 ← JSON-LD context for registry
 
 templates/
-├── application/                      ← Golden path: aplicação
-└── infrastructure/                   ← Golden path: OpenTofu module
+├── application/                    ← Golden path: application
+└── infrastructure/                 ← Golden path: OpenTofu module
 ```
 
-## URLs Live (GitHub Pages)
+## Live URLs (GitHub Pages)
 
-Todos os artefatos são servidos via HTTPS e consumidos automaticamente pelos workflows:
+All artifacts are served via HTTPS:
 
-| Artefato | URL |
+| Artifact | URL |
 |---|---|
 | Catalog Schema | [`schemas/v1/catalog-info.schema.yaml`](https://foral-project.github.io/protocol/schemas/v1/catalog-info.schema.yaml) |
 | Registry Schema | [`schemas/v1/federation-registry.schema.yaml`](https://foral-project.github.io/protocol/schemas/v1/federation-registry.schema.yaml) |
@@ -59,27 +42,26 @@ Todos os artefatos são servidos via HTTPS e consumidos automaticamente pelos wo
 
 ## Standards
 
-| Artefato | Standard | Organização |
+| Artifact | Standard | Org |
 |---|---|---|
 | Schemas | JSON Schema Draft 2020-12 | IETF |
-| Contextos | JSON-LD 1.1 | W3C |
-| Manifesto | Backstage catalog-info.yaml | CNCF |
+| Contexts | JSON-LD 1.1 | W3C |
+| Manifest | Backstage catalog-info.yaml | CNCF |
 | Naming | RFC 1123 DNS Labels | IETF |
 | Versioning | SemVer 2.0.0 | semver.org |
 | Commits | Conventional Commits 1.0.0 | conventionalcommits.org |
-| Eventos | CloudEvents 1.0.3 | CNCF |
-| Templates IaC | OpenTofu module structure | Linux Foundation |
-| Licença | Apache-2.0 | OSI |
+| Events | CloudEvents 1.0.3 | CNCF |
+| IaC Templates | OpenTofu module structure | Linux Foundation |
 
-## Ecossistema
+## Ecosystem
 
-| Repo | Papel |
+| Repo | Role |
 |---|---|
-| 📜 **[protocol](https://github.com/foral-project/protocol)** | Schemas, templates, contexts (este repo) |
-| ⚖️ **[governance](https://github.com/foral-project/governance)** | CI gates, OPA policies, federation registry |
-| 🔧 **[cli](https://github.com/foral-project/cli)** | Validação e scaffold via terminal |
-| 📦 **[template](https://github.com/foral-project/template)** | GitHub template para novos repos |
+| [protocol](https://github.com/foral-project/protocol) | Schemas, templates, contexts (this repo) |
+| [governance](https://github.com/foral-project/governance) | CI workflows, OPA policies, federation registry |
+| [cli](https://github.com/foral-project/cli) | Validation and scaffolding CLI |
+| [template](https://github.com/foral-project/template) | GitHub template for new projects |
 
-## Licença
+## License
 
 [Apache-2.0](LICENSE) — SPDX-License-Identifier: Apache-2.0
